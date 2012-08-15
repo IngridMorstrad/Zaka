@@ -1,4 +1,5 @@
 import pickle
+from datetime import datetime
 
 ##def addrate():
 ##    """Adds rating to a movie"""
@@ -32,64 +33,33 @@ import pickle
 def Sscore():
     """Displays highscores"""
     f=open('HSS.txt','rb')
-    g=open('HSN.txt','rb')
+    try:
+        x=pickle.load(f)
+    except:
+        return [[],[]]
     names=[]
     scores=[]
-    l=f.readline()
-    while l:
-        names.append(l)
-        scores.append(g.readline())
-        l=f.readline()
+    for score,name,_ in x[:10]:
+        scores.append(score)
+        names.append(name)
     f.close()
-    g.close()
     return [names,scores]
 
 def Wscore(PName, Score):
     """Adds a new name to the list"""
-    f=open('HSS.txt','a')
-    g=open('HSN.txt','a')
-    f.write(PName)
-    f.write("\n")
-    g.write(Score)
-    g.write("\n")
-    f.close()
-    g.close()
+    f=open('HSS.txt', 'rb')
+    try:
+        x=pickle.load(f)
+        x.append([Score, PName,datetime.date(datetime.now())])
+        x.sort(reverse=True)
+    except:
+        ## New file
+        x=[[Score, PName,datetime.date(datetime.now())]]
 
-def sort():
-    """Sorts the files"""
-    f=open('HSS.txt','rb')
-    g=open('HSN.txt','rb')
-    ns=[]
-    l=f.readline()
-    k=g.readline()
-    while k:
-        if k=='\n':
-            l=f.readline()
-            k=g.readline()
-            continue
-        if l=='\n':
-            l=f.readline()
-            continue
-        ns.append((int(k),l))
-        l=f.readline()
-        k=g.readline()
     f.close()
-    g.close()
-    ns.sort(reverse=True)
-    f=open('HSS.txt','wb')
-    g=open('HSN.txt','wb')
-    i=0
-    for r in ns:
-        b=repr(r[0])
-        c=r[1]
-        f.write(c)
-        g.write(b)
-        g.write("\r\n")
-        i=i+1
-        if i==10:
-            break
+    f=open('HSS.txt', 'wb')
+    pickle.dump(x,f)
     f.close()
-    g.close()
 
 ##def insrate(Name,score):
 ##    """Inserts rating for a certain film"""
@@ -106,5 +76,3 @@ def sort():
 ##    f.close()
 ##        
 ##
-
-sort()
