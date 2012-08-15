@@ -1,0 +1,11 @@
+UPDATES:
+Fixed some bugs in high score name entry
+Fixed bugs in eatSound and endSound
+
+V 1.1 on 13/8/12
+Modified files to use pickle
+Fixed bugs (no 'z' allowed in name, etc.)
+Added dates with highscore storage
+Better home screen
+Merged music and sound toggling - smoother performance
+Uniform keyboard shortcuts
